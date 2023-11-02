@@ -46,23 +46,23 @@ public class FTPUtil {
 		monitor.beginTask("", 100);
 		//if the wrong client is connected, disconnect before trying again
 		if (openClient != null && !openClient.getUrl().equals(url)) {
-			openClient.close(new SubProgressMonitor(monitor, 0));
+			openClient.close(SubMonitor.convert(monitor, 0));
 			openClient = null;
 		}
 		if (openClient == null) {
 			openClient = createClient(url);
-			openClient.open(new SubProgressMonitor(monitor, 5));
+			openClient.open(SubMonitor.convert(monitor, 5));
 			String path = url.getPath();
 			if (path.length() >0) {
 				try {
-					openClient.changeDirectory(path, new SubProgressMonitor(monitor, 5));
+					openClient.changeDirectory(path, SubMonitor.convert(monitor, 5));
 				} catch (Exception e) {
 					System.out.println("cannot change into path " + path);
 				}
 			}
 			openClients.set(openClient);
 		}
-		runnable.run(new SubProgressMonitor(monitor, 90));
+		runnable.run(SubMonitor.convert(monitor, 90));
 		//just leave the client open to reuse the connection
 	}
 

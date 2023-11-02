@@ -247,14 +247,14 @@ public class CachedMarkerBuilder {
 				return;
 
 			monitor.subTask(MarkerMessages.MarkerView_searching_for_markers);
-			SubProgressMonitor subMonitor = new SubProgressMonitor(monitor, 10);
+			SubProgressMonitor subMonitor = SubMonitor.convert(monitor, 10);
 			newMarkers = generator.generateFilteredMarkers(subMonitor,
 					andFilters(), focusResources, getEnabledFilters());
 
 			if (monitor.isCanceled())
 				return;
 
-			sortAndMakeCategories(new SubProgressMonitor(monitor, 30),
+			sortAndMakeCategories(SubMonitor.convert(monitor, 30),
 					newMarkers);
 			monitor.done();
 		} finally {

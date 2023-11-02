@@ -93,7 +93,7 @@ class QuickFixWizard extends Wizard {
 					if(monitor.isCanceled())
 						return;
 					QuickFixPage wizardPage = (QuickFixPage) pages[i];
-					wizardPage.performFinish(new SubProgressMonitor(monitor,10));
+					wizardPage.performFinish(SubMonitor.convert(monitor,10));
 					monitor.worked(1);
 				}
 				monitor.done();

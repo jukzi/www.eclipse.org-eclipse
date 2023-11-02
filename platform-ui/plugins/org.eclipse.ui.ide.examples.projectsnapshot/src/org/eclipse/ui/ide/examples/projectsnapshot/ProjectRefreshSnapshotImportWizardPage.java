@@ -928,7 +928,7 @@ public class ProjectRefreshSnapshotImportWizardPage extends WizardPage
 					for (int i = 0; i < selected.length; i++) {
 						createExistingProject((ProjectRecord) selected[i],
 								snapshotPath,
-								new SubProgressMonitor(monitor, 1));
+								SubMonitor.convert(monitor, 1));
 					}
 				} finally {
 					monitor.done();
@@ -996,14 +996,14 @@ public class ProjectRefreshSnapshotImportWizardPage extends WizardPage
 			monitor.beginTask(
 					Messages.ProjectRefreshSnapshotImportWizardPage_createProjectsTask,
 					100);
-			project.create(record.description, new SubProgressMonitor(monitor,
+			project.create(record.description, SubMonitor.convert(monitor,
 					30));
 			IPath zipPath = snapshotPath.append(projectName + "-index.zip"); //$NON-NLS-1$
 			URI snapshotLocation = org.eclipse.core.filesystem.URIUtil
 					.toURI(zipPath);
 			project.loadSnapshot(IProject.SNAPSHOT_TREE, snapshotLocation,
-					new SubProgressMonitor(monitor, 40));
-			project.open(IResource.NONE, new SubProgressMonitor(monitor, 30));
+					SubMonitor.convert(monitor, 40));
+			project.open(IResource.NONE, SubMonitor.convert(monitor, 30));
 		} catch (CoreException e) {
 			throw new InvocationTargetException(e);
 		} finally {
